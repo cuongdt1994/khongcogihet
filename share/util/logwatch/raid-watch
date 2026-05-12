@@ -1,8 +1,0 @@
-#!/usr/bin/perl
-
-while (defined($_ = <STDIN>)) {
-   chomp;
-   if (/raid-watch/) {
-      print("$_\n");
-   }
-}

@@ -10,7 +10,6 @@
 #include "itimer.h"
 #include "uniquenameclient.hpp"
 #include "factiondb.h"
-//#include <liblicense.h>
 #include <beaktrace.h>
 #include "luaman.hpp"
 
@@ -18,24 +17,6 @@ using namespace GNET;
 int main(int argc, char *argv[])
 {
 	static const char * m_service = "gfaction";
-	
-//VM_BEGIN
-	int m_result = 0;
-//	Conf *license_conf = Conf::GetInstance("/home/license.conf");
-
-//	if ( !LicenseInterfaces::Init(
-//		license_conf->find("GLicenseClient", "address").c_str(), 
-//		atoi(license_conf->find("GLicenseClient", "port").c_str()), 
-//		license_conf->find("GLicenseClient", "login").c_str(), 
-//		license_conf->find("GLicenseClient", "passwd").c_str(), 
-//		m_service, 
-//		m_result) 
-//		)
-	{
-//		printf("LICENSE::START: ERR=%d \n", m_result);
-//		kill(0, SIGUSR1);
-	}
-//VM_END
 	
 	SetupSignalHandler();
 	
@@ -46,13 +27,10 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
 
-//VM_BEGIN
-	if (true)
-	{
+	
 		LuaManager::GetInstance()->Init();
 		IntervalTimer::StartTimer(500000);
-	}
-//VM_END
+	
 	
 	
 	bool is_central_faction = false;
@@ -79,7 +57,7 @@ int main(int argc, char *argv[])
 
 	{
 		GProviderServer *manager = GProviderServer::GetInstance();
-		//faction serverµÄID±ØÐëÎª101-200Ö®¼ä
+		//faction serverï¿½ï¿½IDï¿½ï¿½ï¿½ï¿½Îª101-200Ö®ï¿½ï¿½
 		manager->SetProviderID(atoi(conf->find(manager->Identification(), "id").c_str()));
 		if (manager->GetProviderID()<101 || manager->GetProviderID()>200) 
 		{
@@ -101,15 +79,10 @@ int main(int argc, char *argv[])
 		Thread::HouseKeeper::AddTimerTask(new KeepAliveTask(30),30); 
 	}
 	
-//VM_BEGIN
-	if (true)
-	{
 		Thread::Pool::AddTask(new LuaTimer(1));
 		Factiondb::GetInstance()->InitFactiondb();
 		Thread::Pool::AddTask(PollIO::Task::GetInstance());
 		Thread::Pool::Run();
-	}
-//VM_END
 	
 	return 0;
 }

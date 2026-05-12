@@ -1,7 +1,7 @@
 #ifndef __MARSHAL_H
 #define __MARSHAL_H
 
-#include "common/platform.h"
+#include "platform.h"
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -37,8 +37,8 @@ public:
 	{
 		enum { MAXSPARE = 16384};
 		Octets  data;
-		mutable unsigned int pos;
-		mutable unsigned int tranpos;
+		mutable size_t pos;
+		mutable size_t tranpos;
 		template<typename T> OctetsStream& push_byte(T t)
 		{
 			data.insert(data.end(), &t, sizeof(t));
@@ -68,9 +68,9 @@ public:
 			pop_byte(l);
 			return byteorder_32(l);
 		}
-		unsigned long pop_byte_64() const
+		unsigned long long pop_byte_64() const
 		{
-			unsigned long ll;
+			unsigned long long ll;
 			pop_byte(ll);
 			return byteorder_64(ll);
 		}
@@ -78,17 +78,26 @@ public:
 		friend class CompactUINT;
 		friend class CompactSINT;
 
-		OctetsStream& compact_uint32(size_t x)//change unsigned int to size_t to forbid convert from size_t to unsigned int 
+		OctetsStream& compact_uint32(unsigned long ix)//change unsigned int to size_t to forbid convert from size_t to unsigned int 
 		{
-			if (x>UINT_MAX) throw Marshal::Exception("size of x is bigger than UINT_MAX in Marshal::compact_uint32\n");
+			if (ix>UINT_MAX) 
+			{
+				throw Marshal::Exception("size of x is bigger than UINT_MAX in Marshal::compact_uint32\n");
+			}
+			unsigned int x = ix;
 			if (x < 0x80) return push_byte((unsigned char)x);
 			else if (x < 0x4000) return push_byte(byteorder_16(x|0x8000));
 			else if (x < 0x20000000) return push_byte(byteorder_32(x|0xc0000000));
 			push_byte((unsigned char)0xe0);
 			return push_byte(byteorder_32(x));
 		}
-		OctetsStream& compact_sint32(int x)
+		OctetsStream& compact_sint32(long ix)
 		{
+			if ( ix > INT_MAX || ix < -INT_MAX )
+			{
+				throw Marshal::Exception("size of x is bigger than x > INT_MAX || x < -INT_MAX in Marshal::compact_uint32\n");
+			}
+			int x = ix;
 			if (x >= 0)
 			{
 				if (x < 0x40) return push_byte((unsigned char)x);
@@ -197,6 +206,9 @@ public:
 		void erase(void *x, void *y) { data.erase(x, y); }
 		void clear() { data.clear(); pos = 0; }
 
+		Octets odata() { return data; }
+		const Octets codata() const { return data; }
+
 		OctetsStream& operator << (char x)               { return push_byte(x); }
 		OctetsStream& operator << (unsigned char x)      { return push_byte(x); }
 		OctetsStream& operator << (bool x)               { return push_byte(x); }
@@ -204,11 +216,10 @@ public:
 		OctetsStream& operator << (unsigned short x)     { return push_byte(byteorder_16(x)); }
 		OctetsStream& operator << (int x)                { return push_byte(byteorder_32(x)); }
 		OctetsStream& operator << (unsigned int x)       { return push_byte(byteorder_32(x)); }
-		//OctetsStream& operator << (long x)               { return push_byte(byteorder_32(x)); }
-		//OctetsStream& operator << (unsigned long x)      { printf("dangerous action \n");return push_byte(byteorder_64(x)); }
-		//OctetsStream& operator << (long long x)          { return push_byte(byteorder_64(x)); }
-		//OctetsStream& operator << (unsigned long long x) { return push_byte(byteorder_64(x)); }
-		OctetsStream& operator << (int64_t x)            { return push_byte(byteorder_64(x)); }
+		OctetsStream& operator << (long x)               { return push_byte(byteorder_64(x)); }
+		OctetsStream& operator << (unsigned long x)      { return push_byte(byteorder_64(x)); }
+		OctetsStream& operator << (long long x)          { return push_byte(byteorder_64(x)); }
+		OctetsStream& operator << (unsigned long long x) { return push_byte(byteorder_64(x)); }
 		OctetsStream& operator << (float x)              { return push_byte(byteorder_32(aliasing_cast<int>(x))); }
 		OctetsStream& operator << (double x)             { return push_byte(byteorder_64(aliasing_cast<unsigned long long>(x))); }
 		OctetsStream& operator << (const Marshal &x)     { return x.marshal(*this); }
@@ -315,10 +326,10 @@ public:
 			remove_const(x) = pop_byte_32();
 			return *this;
 		}
-		/*
+		
 		const OctetsStream& operator >> (const long &x) const
 		{
-			remove_const(x) = pop_byte_32();
+			remove_const(x) = pop_byte_64();
 			return *this;
 		}
 		const OctetsStream& operator >> (const unsigned long &x) const
@@ -326,19 +337,18 @@ public:
 			remove_const(x) = pop_byte_64();
 			return *this;
 		}
-		*/
-		const OctetsStream& operator >> (const int64_t &x) const
+		
+		const OctetsStream& operator >> (const long long &x) const
 		{
 			remove_const(x) = pop_byte_64();
 			return *this;
-		}
-		/*
+		}		
 		const OctetsStream& operator >> (const unsigned long long &x) const
 		{
 			remove_const(x) = pop_byte_64();
 			return *this;
 		}
-		*/
+		
 		const OctetsStream& operator >> (const float &x) const
 		{
 			unsigned int l = pop_byte_32();
@@ -347,7 +357,7 @@ public:
 		}
 		const OctetsStream& operator >> (const double &x) const
 		{
-			unsigned long ll = pop_byte_64();
+			unsigned long long ll = pop_byte_64();
 			remove_const(x) = aliasing_cast<double>(ll);
 			return *this;
 		}

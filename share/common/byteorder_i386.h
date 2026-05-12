@@ -1,7 +1,7 @@
 #ifndef __BYTEORDER_H
 #define __BYTEORDER_H
 
-#include "common/platform.h"
+#include "platform.h"
 
 namespace GNET
 {

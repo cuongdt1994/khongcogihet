@@ -193,9 +193,6 @@ namespace GNET
 		}
 
 	};
-
-
-
 };
 
 #endif

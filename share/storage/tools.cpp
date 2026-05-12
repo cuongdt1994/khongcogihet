@@ -13,6 +13,8 @@
 #include "dbbuffer.h"
 #include "querybinder.h"
 
+#include <db_cxx.h>
+
 using namespace std;
 using namespace GNET;
 

@@ -654,7 +654,7 @@ public:
 			try
 			{
 				DB_BTREE_STAT * pstat = NULL;
-				db->stat(&pstat, flags);
+				db->stat( (DbTxn *)db, &pstat, flags);////
 				if ( pstat )
 				{
 					count = pstat->bt_nkeys;
