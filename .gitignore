@@ -1,0 +1,123 @@
+# PW Server v174 - .gitignore
+
+# Compiled Object files
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+gamed
+gamedbd
+gdeliveryd
+glinkd
+gauthd
+gfactiond
+gacd
+uniquenamed
+logservice
+gs
+
+# Compiled libraries
+libcm.a
+libTrace.a
+liblua.a
+libskill.so
+libtask.so
+libgsPro2.a
+libdbCli.a
+libgsio.a
+liblogCli.a
+
+# Logs
+*.log
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+*.bak
+*.backup
+
+# Build directories
+build/
+dist/
+bin/
+obj/
+
+# Dependency files
+.depend
+*.d
+
+# IDE specific files
+.vscode/
+.vscode-server/
+.idea/
+*.sublime-*
+.DS_Store
+
+# Environment files
+.env
+.env.local
+
+# Compressed files (optional - uncomment if you don't want to track)
+# *.tar.gz
+# *.zip
+# *.rar
+
+# Large backups
+174compiler.tar.gz
+
+# Temporary scripts
+cleanup.ps1
+
+# Symbolic links (will be recreated by build.sh)
+cnet/common
+cnet/io
+cnet/mk
+cnet/storage
+cnet/rpc
+cnet/lua
+cnet/rpcgen
+cgame/gs/libskill.so
+cgame/lua
+iolib/libdbCli.a
+iolib/libgsPro2.a
+iolib/libgsio.a
+iolib/liblogCli.a
+iolib/libskill.a
+
+# Linux specific
+.bash_history
+.cache/
+.dotnet/
+.local/
+.ssh/
+.sudo_as_admin_successful
+.my.cnf.*
+.my.output.*
+.mysql.*
+
+# Generated code (if regenerated from build)
+# Uncomment if these are auto-generated
+# cnet/rpcdata/
+# cnet/inl/
+# cskill/skills/
+
+# Database files (optional)
+# *.db
+# *.sqlite
+
+# Core dumps
+core
+core.*
+*.core
