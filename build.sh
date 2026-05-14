@@ -25,6 +25,10 @@ ln -sf ~/share/lua/ .
 ln -sf ~/share/rpcgen .
 chmod +x ~/share/rpcgen
 chmod +x ~/share/rpc/*
+
+cd "$BASE/$NET/gdeliveryd"
+ln -sf "../gauthd/gauthclient.hpp" .
+
 echo ""
 echo "=========================== setup iolib ==========================="
 echo ""
