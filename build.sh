@@ -1,7 +1,11 @@
 #!/bin/bash
-GS=`echo *game`;
-NET=`echo *net`;
-SKILL=`echo *skill`;
+GS=$(ls -d *game 2>/dev/null | head -n 1)
+NET=$(ls -d *net 2>/dev/null | head -n 1)
+SKILL=$(ls -d *skill 2>/dev/null | head -n 1)
+
+GS=${GS:-cgame}
+NET=${NET:-cnet}
+SKILL=${SKILL:-cskill}
 echo ""
 echo "=========================== setup $NET ==========================="
 echo ""
