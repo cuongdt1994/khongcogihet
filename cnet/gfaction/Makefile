@@ -23,7 +23,7 @@ OBJS = gfactionserver.o gproviderserver.o gfactiondbclient.o uniquenameclient.o 
 all : gfactiond
 
 gfactiond : $(OBJS) $(SHAREOBJ) $(OUTEROBJS) $(LOGSTUB) $(LOGOBJ)
-	$(LD) $(LDFLAGS) -o $@ $(SHAREOBJ) $(OBJS) $(OUTEROBJS) $(SHARE_SOBJ) $(LOGSTUB) $(LOGOBJ) -lpcre -ldl
+	$(LD) $(LDFLAGS) -o $@ $(SHAREOBJ) $(OBJS) $(OUTEROBJS) $(SHARE_SOBJ) $(LOGSTUB) $(LOGOBJ) $(LICENSE_SOBJ) -lpcre -ldl
 
 include ../mk/gcc.rules.mk
 

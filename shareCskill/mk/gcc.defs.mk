@@ -20,7 +20,7 @@ LOGSRC  = $(LOG_DIR)/logclientclient.cpp $(LOG_DIR)/logclienttcpclient.cpp $(LOG
 LOGSTUBSRC = $(LOG_DIR)/stubs.cxx $(LOG_DIR)/state.cxx
 
 SHARE_SOBJ = -lssl $(LUA_DIR)/src/liblua.a -ldl
-
+LICENSE_SOBJ = $(LIC_DIR)/LicenseCli.a
 
 ifeq ($(SINGLE_THREAD),true)
 	DEFINES = -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 #-march=pentium4
