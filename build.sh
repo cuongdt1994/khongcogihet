@@ -23,7 +23,8 @@ ln -sf ~/share/storage/ .
 ln -sf ~/share/rpc/ .
 ln -sf ~/share/lua/ .
 ln -sf ~/share/rpcgen .
-
+chmod +x ~/share/rpcgen
+chmox +x ~/share/rpc/*
 echo ""
 echo "=========================== setup iolib ==========================="
 echo ""
@@ -215,14 +216,14 @@ builddeliver()
 {
     cd "$BASE/$NET"
 
-    echo ""
-    echo "========================== build licenseclient =============================="
-    echo ""
-    cd licenseclient
-    make clean
-    make -j32
-    make lib
-    cd ..
+    #echo ""
+    #echo "========================== build licenseclient =============================="
+    #echo ""
+    #cd licenseclient
+    #make clean
+    #make -j32
+    #make lib
+    #cd ..
 
     echo ""
     echo "========================== build gauthd =============================="
