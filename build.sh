@@ -24,7 +24,7 @@ ln -sf ~/share/rpc/ .
 ln -sf ~/share/lua/ .
 ln -sf ~/share/rpcgen .
 chmod +x ~/share/rpcgen
-chmox +x ~/share/rpc/*
+chmod +x ~/share/rpc/*
 echo ""
 echo "=========================== setup iolib ==========================="
 echo ""
