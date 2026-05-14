@@ -22,7 +22,8 @@ gfactiond
 gacd
 uniquenamed
 logservice
-gs
+# Dùng đường dẫn cụ thể để chỉ ignore binary, không ignore thư mục cgame/gs/
+*game/gs/gs
 
 # Compiled libraries
 libcm.a
